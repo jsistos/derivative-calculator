@@ -8,10 +8,11 @@ from ..elementary import Elementary
 class Cosine(Elementary):
     def __init__(self, input):
         super().__init__("cos", input)
-        
-        self.derivative = Function(-Sine(input))
 
-        return self
+        return None
 
-    def __eval__(self):
+    def eval(self):
         return math.cos(self._input.__eval__())
+    
+    def get_derivative(self):
+        return Function(-Sine(self.input))

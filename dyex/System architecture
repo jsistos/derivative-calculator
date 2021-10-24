@@ -1,0 +1,79 @@
+STR = x^2 + (e^(x^3 + 4*x^2 - 3))/(ln(sin(2*x) + 4))
+
+EXPR[LAYER][POSITION]
+
+EXPR[0][0] := x^2 + (e^(x^3 + 4*x^2 - 3))/(ln(sin(2*x) + 4))
+	EXPR[1][0] := e^(x^3 + 4x^2 - 3)
+		EXPR[2][0] := x^3 + 4x^2 - 3
+	EXPR[1][1] := ln(sin(x) + 4)
+		EXPR[2][1] := sin(2*x) + 4
+			EXPR[3][0] := 2x
+
+EXPR[0][0]
+= x^2 + EXPR[1][0]/EXPR[1][1]
+
+= SUM(x^2, EXPR[1][0]/EXPR[1][1])
+
+= SUM(x^2, DIV(EXPR[1][0],EXPR[1][1]))
+
+= SUM(POLY(2), DIV(EXPR[1][0],EXPR[1][1]))
+
+
+
+	EXPR[1][0]
+	= e^EXPR[2][0]
+	= EXP(EXPR[2][0])
+
+		EXPR[2][0]
+		= x^3 + 4x^2 - 3
+		= SUM(x^3, 4x^2, -3)
+		= SUM(POLY(3), MUL(4, x^2), CONST(-3))
+		= SUM(POLY(3), MUL(CONST(4), POLY(2)), CONST(-3))
+	
+	= EXP(SUM(POLY(3), MUL(CONST(4), POLY(2)), CONST(-3)))
+
+	EXPR[1][1]
+	= ln(sin(2*x) + 4)
+	= ln(EXPR[2][1])
+
+		EXPR[2][1]
+		= sin(2*x) + 4
+		= SUM(sin(2*x), 4)
+		= SUM(SIN(EXPR[3][0]), CONST(4))
+
+			EXPR[3][0]
+			= 2*x
+			= MUL(2, x)
+			= MUL(CONST(2), POLY(1))
+
+		= SUM(SIN(MUL(CONST(2), POLY(1))), CONST(4))
+
+	= LOGN(SUM(SIN(MUL(CONST(2), POLY(1))), CONST(4)))
+
+EXPR[0][0]
+= SUM(
+	POLY(2),
+	DIV(
+		EXP(
+			SUM(
+				POLY(3),
+				MUL(
+					CONST(4),
+					POLY(2)
+				),
+				CONST(-3)
+			)
+		),
+		LOGN(
+			SUM(
+				SIN(
+					MUL(
+						CONST(2),
+						POLY(1)
+					)
+				)
+			),
+			CONST(4)
+		)
+	)
+)

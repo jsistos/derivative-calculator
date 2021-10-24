@@ -6,8 +6,8 @@ class Parser():
         return None
 
     def find_parenthesis(self):
-        lefts = ['(', '[', '{']
-        rights = [')', ']', '}']
+        lefts = ('(', '[', '{')
+        rights = (')', ']', '}')
 
         blocks = {(0, len(self.expression)-1, self.expression): 0}
         leftLimits = []
@@ -40,7 +40,16 @@ class Parser():
     def find_parenthesis_by_layer(self, layer):
         return {k for k,v in self.blocks.items() if v == layer}
 
-#Make dedicated testing folder
+    def find_exponents(self):
+        return None
+
+    def find_products(self):
+        return None
+
+    def find_additions(self):
+        return None
+
+
 exp = Parser('e^((x+1)^2)*(4x^2+5x+2)')
 print(exp.blocks)
 print("In layer 1: " + str(exp.find_parenthesis_by_layer(1)))

@@ -1,0 +1,10 @@
+Notes:
+    (10/22)
+        - Double underscore in functions makes them private (?). Need more research into that.
+        - How does python decide which folder is the main folder? Why do I get an error when running
+          tests? 
+            File "test_parser.py", line 1, in <module>
+                from ..dyex.tools.parser import Parser
+                ImportError: attempted relative import with no known parent package
+        - Boi what? What is the difference between a script and a module?
+
