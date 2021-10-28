@@ -1,18 +1,32 @@
-from functions.elementary.polynomial import Const, Poly, Ex
+import dyex.functions.elementary as elem
+#import dyex.functions.operator as op
+#from dyex.tools.parser import Parser
 
-squa = Poly(Ex(), 2)
-dydx1 = squa.get_full_derivative()
+'''
+print("Welcome to dYeX. The easy derivative calculator")
+funcStr = input("Please give me a function: \n>")
 
-cube = Poly(Ex(), 3)
-dydx2 = cube.get_full_derivative()
+funcStr = Parser(funcStr)
+'''
 
-sqrt = Poly(Ex(), 1./2)
-dydx3 = sqrt.get_full_derivative()
+from dyex.functions.operator import *
+from dyex.functions.elementary import *
 
-inv = Poly(Ex(), -1)
-dydx4 = inv.get_full_derivative()
 
-print(f'{squa} has a derivative of {dydx1}')
-print(f'{cube} has a derivative of {dydx2}')
-print(f'{sqrt} has a derivative of {dydx3}')
-print(f'{inv} has a derivative of {dydx4}')
+x = Ex()
+f = x**2 + 3*x + Const(5)
+
+derivative = f.get_full_derivative()
+
+g = x*x
+
+y = Const(6)
+z = Const(y)
+
+print(f)
+print(derivative)
+
+print(g)
+
+print(y)
+print(z)

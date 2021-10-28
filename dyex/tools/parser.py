@@ -1,9 +1,17 @@
+import dyex.functions.function as func
+import dyex.functions.elementary as elem
+import dyex.functions.operator as op
+import tools
+
 class Parser():
     def __init__(self, expression):
-        self.expression = expression
+        self.expression = self.format(expression)
         self.blocks = self.find_parenthesis()
 
         return None
+
+    def format(self, expression):
+        return expression.replace(' ', '').lower()
 
     def find_parenthesis(self):
         lefts = ('(', '[', '{')
@@ -37,8 +45,20 @@ class Parser():
         
         return blocks
 
-    def find_parenthesis_by_layer(self, layer):
-        return {k for k,v in self.blocks.items() if v == layer}
+    def parenthesis_by_layer(self, layer):
+        return {(k[0], k[1]):k[2] for k,v in self.blocks.items() if v == layer}
+
+    def reduce_expression(self):
+        arrExpression = tools.string_to_array(self.expression)
+        layer1 = self.parenthesis_by_layer(1)
+
+        for parenthesis in layer1.keys():
+            arrExpression[parenthesis[0]] = '#'
+            del arrExpression[parenthesis[0] + 1:parenthesis[1]:]
+
+        reducedExpression = tools.array_to_string(arrExpression)
+        return reducedExpression
+
 
     def find_exponents(self):
         return None
@@ -46,10 +66,24 @@ class Parser():
     def find_products(self):
         return None
 
-    def find_additions(self):
+    def find_sums(self):
+        if '+' in self.expression:
+            return op.Sum(self.expression.split('+'))
         return None
+
+    def parse(self):
+        reducedExpression = self.hide_first_layer()
+        firstLayerParentheses = self.parenthesis_by_layer(1)
+
+        for subFuncStr in firstLayerParentheses:
+            if firstLayerParentheses == 'x':
+                return elem.Ex()
+            elif isinstance(firstLayerParentheses, (int, float)):
+                return elem.Const(firstLayerParentheses)
+
+            return self.parse(subFuncStr)
 
 
 exp = Parser('e^((x+1)^2)*(4x^2+5x+2)')
 print(exp.blocks)
-print("In layer 1: " + str(exp.find_parenthesis_by_layer(1)))
+print("In layer 1: " + str(exp.parenthesis_by_layer(1)))

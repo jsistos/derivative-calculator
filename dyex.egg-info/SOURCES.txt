@@ -1,0 +1,15 @@
+README.md
+setup.py
+dyex/__init__.py
+dyex/main.py
+dyex.egg-info/PKG-INFO
+dyex.egg-info/SOURCES.txt
+dyex.egg-info/dependency_links.txt
+dyex.egg-info/top_level.txt
+dyex/functions/__init__.py
+dyex/functions/elementary.py
+dyex/functions/function.py
+dyex/functions/operator.py
+dyex/tools/__init__.py
+dyex/tools/parser.py
+dyex/tools/simplifier.py
