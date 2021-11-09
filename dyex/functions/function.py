@@ -1,6 +1,7 @@
 class Function():
     def __init__(self, name):
         self.name = name
+        self._args = []
         return None
 
     def __add__(self, other):

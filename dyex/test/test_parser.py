@@ -49,7 +49,7 @@ print(f)
 print(f.get_full_derivative())
 
 f1 = op.Mul(elem.Const(2), elem.Const(2), elem.Poly(elem.Ex()), elem.Const(3))
-f1 = Simplifier(f1).mul_find_constants()
+#f1 = Simplifier(f1).simplify_constants_mul()
 print(f1)
 
 print(elem.Ex() + elem.Ex() - elem.Ex())

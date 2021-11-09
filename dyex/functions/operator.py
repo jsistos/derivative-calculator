@@ -1,5 +1,6 @@
 import dyex.functions.function as func
 import dyex.functions.elementary as elem
+import dyex.tools.simplifier as s
 
 
 class Operator(func.Function):
@@ -9,16 +10,16 @@ class Operator(func.Function):
 
 class Sum(Operator):
     def __init__(self, func1, func2, *args):
-        super().__init__('SUM')
+        super().__init__('Sum')
         self._args = [func1, func2, *args]
 
         return None
 
     def __str__(self):
-        retStr = f'{self._args[0]}'
-        for func in self._args[1::]:
-            retStr+= f' + {func}'
-        return retStr
+        retStr = ''
+        for subFunc in self._args:
+            retStr+= f'{subFunc}+'
+        return retStr[:-1:]
 
     def get_full_derivative(self):
         #You can use the * operator before an iterable to expand it within the function call.
@@ -35,16 +36,22 @@ class Sum(Operator):
 
 class Mul(Operator):
     def __init__(self, func1, func2, *args):
-        super().__init__("mulOP")
+        super().__init__("Mul")
         self._args = [func1, func2, *args]
 
     def __str__(self):
         retStr = ''
 
         for subFunc in self._args:
-            retStr += f'({subFunc})'
-
-        return retStr
+            '''
+            If the sub function of the multiplication is of less importance (PEMDAS),
+            then it must be printed with parenthesis. Else a * symbol works
+            '''
+            if isinstance(subFunc, Sum):
+                retStr += f'({subFunc})*'
+            else:
+                retStr += f'{subFunc}*'
+        return retStr[:-1:]
 
     def get_full_derivative(self):
         copy_args = self._args[::]
@@ -65,15 +72,7 @@ class Div(Operator):
         self.denominator = denominator
 
     def __str__(self):
-        #Look into circular dependency issue
-        if isinstance(self.numerator, Sum) and isinstance(self.denominator, Sum):
-            return f'({self.numerator})/({self.denominator})'
-        elif isinstance(self.numerator, Sum):
-            return f'({self.numerator})/{self.denominator}'
-        elif isinstance(self.denominator, Sum):
-            return f'{self.numerator}/({self.denominator})'
-        else:
-            return f'{self.numerator}/{self.denominator}'
+        return f'({self.numerator})/({self.denominator})'
 
     def get_full_derivative(self):
         return (self.numerator.get_full_derivative() * self.denominator 

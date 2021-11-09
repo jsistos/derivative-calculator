@@ -1,7 +1,7 @@
 import dyex.functions.function as func
 import dyex.functions.elementary as elem
 import dyex.functions.operator as op
-import tools
+import dyex.tools.tools as tools
 
 class Parser():
     def __init__(self, expression):
@@ -82,8 +82,3 @@ class Parser():
                 return elem.Const(firstLayerParentheses)
 
             return self.parse(subFuncStr)
-
-
-exp = Parser('e^((x+1)^2)*(4x^2+5x+2)')
-print(exp.blocks)
-print("In layer 1: " + str(exp.parenthesis_by_layer(1)))
